@@ -1,18 +1,22 @@
 class MyCalendarThree {
 
-    private TreeMap<Integer, Integer> timeline = new TreeMap<>();
-    public int book(int s, int e) {
-        timeline.put(s, timeline.getOrDefault(s, 0) + 1); // 1 new event will be starting at [s]
-        timeline.put(e, timeline.getOrDefault(e, 0) - 1); // 1 new event will be ending at [e];
-        int ongoing = 0, k = 0;
-        for (int v : timeline.values())
-            k = Math.max(k, ongoing += v);
-        return k;
+    TreeMap<Integer, Integer> count;
+    int max;
+
+    public MyCalendarThree() {
+        count = new TreeMap();
+        count.put(-1, 0);
+        max = 0;
+    }
+    
+    public int book(int start, int end) {
+        count.put(start, count.floorEntry(start).getValue());
+        count.put(end, count.floorEntry(end).getValue());
+        for(Map.Entry<Integer, Integer> entry : count.subMap(start, end).entrySet()){
+            int val = entry.getValue() + 1;
+            entry.setValue(val);
+            max = Math.max(max, val);
+        }
+        return max;
     }
 }
-
-/**
- * Your MyCalendarThree object will be instantiated and called as such:
- * MyCalendarThree obj = new MyCalendarThree();
- * int param_1 = obj.book(start,end);
- */
