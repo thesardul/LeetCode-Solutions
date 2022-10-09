@@ -1,23 +1,39 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        if (intervals.length <= 1)
-			return intervals;
-
-		// Sort by ascending starting point
-		Arrays.sort(intervals, (i1, i2) -> Integer.compare(i1[0], i2[0]));
-
-		List<int[]> result = new ArrayList<>();
-		int[] newInterval = intervals[0];
-		result.add(newInterval);
-		for (int[] interval : intervals) {
-			if (interval[0] <= newInterval[1]) // Overlapping intervals, move the end if needed
-				newInterval[1] = Math.max(newInterval[1], interval[1]);
-			else {                             // Disjoint intervals, add the new interval to the list
-				newInterval = interval;
-				result.add(newInterval);
-			}
-		}
-
-		return result.toArray(new int[result.size()][]);
+        if (intervals.length == 1)
+            return intervals;
+        
+        int maxI = intervals[0][1];
+        int minI = intervals[0][0];
+        for (int[] i : intervals) {
+            if (i[1] > maxI)
+                maxI = i[1];
+            if (i[0] < minI)
+                minI = i[0];
+        }
+        int[] starts = new int[maxI+1];
+        int[] stops = new int[maxI+1];
+        
+        for (int[] i : intervals) {
+            starts[i[0]]++;
+            stops[i[1]]++;
+        }
+        
+        List<int[]> result = new ArrayList<>();
+        int n = 0;
+        int start=0;
+        for (int i=minI; i<=maxI; i++) {
+            if (starts[i] != 0) {
+                if (n == 0) {
+                    start = i;
+                }
+                n += starts[i];
+            }
+            if (stops[i] != 0) {
+                if ( (n -= stops[i]) == 0 )
+                    result.add(new int[] {start, i});
+            }
+        }
+        return result.toArray(new int[0][0]);
     }
 }
