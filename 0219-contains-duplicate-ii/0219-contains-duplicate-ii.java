@@ -1,6 +1,6 @@
 class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        HashMap<Integer, Integer> hMap = new HashMap<>();
+        HashMap<Integer, Integer> hMap = new HashMap<>(nums.length);
         for(int i = 0; i < nums.length; i++){
             if(hMap.containsKey(nums[i])){
                 int temp = nums[i];
