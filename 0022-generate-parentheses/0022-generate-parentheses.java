@@ -1,9 +1,7 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> aList = new ArrayList<>();
-        int o = 0;
-        int c = 0;
-        solve(n, "", o, c, aList);
+        solve(n, "", 0, 0, aList);
         return aList;
     }
     
