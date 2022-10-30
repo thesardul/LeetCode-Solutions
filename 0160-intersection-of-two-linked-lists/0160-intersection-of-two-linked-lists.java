@@ -12,34 +12,13 @@
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if(headA == null || headB == null) return null;
-        ListNode currA = headA;
-        ListNode currB = headB;
-        
-        while(currA!=null && currB !=null){
-            currA = currA.next;
-            currB = currB.next;
-            
+        ListNode a = headA;
+        ListNode b = headB;
+        while( a != b){
+            a = a == null? headB : a.next;
+            b = b == null? headA : b.next;    
         }
-        if(currA == null){
-            currA = headB;
-            while(currB!=null){
-                currA = currA.next;
-                currB = currB.next;
-            }
-            currB = headA;
-        }
-        if(currB == null){
-            currB = headA;
-            while(currA!=null){
-                currA = currA.next;
-                currB = currB.next;
-            }
-            currA = headB;
-        }
-        while(currA !=currB){
-                currA = currA.next;
-                currB = currB.next;
-            }
-        return currA;
+    
+        return a;
     }
 }
